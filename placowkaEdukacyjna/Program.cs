@@ -68,7 +68,7 @@
 
                 foreach (var uczen in klasa.klasa.Values)
                 {
-                    Console.WriteLine("  |-" + uczen.imie);
+                    Console.WriteLine("| |-" + uczen.imie);
                     ucz++;
                 }
                 ucz = 0;
