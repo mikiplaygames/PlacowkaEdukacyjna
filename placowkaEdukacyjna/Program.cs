@@ -8,14 +8,15 @@
 
         Klasa klasa1 = new();
         Klasa klasa2 = new();
+        Klasa klasa3 = new();
 
 
         klasa1.AddStudent(new UczenID { szkola = "zsl", klasa = "1s" }, "jan", "dps", 2, 3, 1);
         klasa1.AddStudent(new UczenID { szkola = "zsl", klasa = "1s" }, "ada", "iiiddsadaps", 3, 23, 91);
         klasa1.AddStudent(new UczenID { szkola = "zsl", klasa = "1s" }, "rop", "ooooodps", 5, 3, 11);
         klasa1.AddStudent(new UczenID { szkola = "zsl", klasa = "1s" }, "syzm", "jjjjjdps", 22, 333, 17);
-        klasa1.AddStudent(new UczenID { szkola = "zsl", klasa = "1s" }, "fuk", "ggggdps", 32, 73, 16);
-        klasa1.AddStudent(new UczenID { szkola = "zsl", klasa = "1s" }, "luc", "nnnndps", 62, 13, 71);
+        klasa1.AddStudent(new UczenID { szkola = "zsl", klasa = "1s" }, "fuk", "ggggdps", 323, 73, 16);
+        klasa1.AddStudent(new UczenID { szkola = "zsl", klasa = "1s" }, "luc", "nnnndps", 612, 13, 71);
         klasa1.AddStudent(new UczenID { szkola = "zsl", klasa = "1s" }, "krzs", "cccdps", 212, 33, 11);
         klasa1.AddStudent(new UczenID { szkola = "zsl", klasa = "1s" }, "woj", "aaaadps", 12, 23, 15);
 
@@ -29,16 +30,52 @@
         klasa2.AddStudent(new UczenID { szkola = "zsl", klasa = "2g" }, "cccdps", "krzs", 212, 33, 11);
         klasa2.AddStudent(new UczenID { szkola = "zsl", klasa = "2g" }, "aaaadps", "woj", 12, 23, 15);
 
+
+        klasa3.AddStudent(new UczenID { szkola = "zsl", klasa = "4h" }, "jan", "snus", 2, 3, 1);
+        klasa3.AddStudent(new UczenID { szkola = "zsl", klasa = "4h" }, "nb", "sadek", 3, 23, 91);
+        klasa3.AddStudent(new UczenID { szkola = "zsl", klasa = "4h" }, "cowboy", "bepbop", 5, 3, 11);
+        klasa3.AddStudent(new UczenID { szkola = "zsl", klasa = "4h" }, "ss", "ayzm", 2, 333, 17);
+        klasa3.AddStudent(new UczenID { szkola = "zsl", klasa = "4h" }, "ps", "sfuk", 2, 73, 16);
+        klasa3.AddStudent(new UczenID { szkola = "zsl", klasa = "4h" }, "rober", "lewandoski", 62, 213, 71);
+        klasa3.AddStudent(new UczenID { szkola = "zsl", klasa = "4h" }, "ishow", "sped", 2, 33, 11);
+        klasa3.AddStudent(new UczenID { szkola = "zsl", klasa = "4h" }, "swea", "daj", 1, 23, 15);
+
         zsl.AddClass("1s", klasa1);
         zsl.AddClass("2g", klasa2);
+        zsl.AddClass("4h", klasa3);
 
         szkoly.AddSchool("zsl", zsl);
 
-        UczenID uczenID = new UczenID { szkola = "zsl", klasa = "1s", numerUczen = 1 };
+        ShowTree(szkoly);    
+    }
+    
+    static void ShowTree(ListaSzkol szkoly)
+    {
+        int sql = 0;
+        int kls = 0;
+        int ucz = 0;
 
-        var wybraniec = szkoly.GetStudentFromAnywhere(uczenID);
 
-        Console.WriteLine(wybraniec.imie + " " + wybraniec.nazwisko);
+        foreach (var szkola in szkoly.listaSzkol.Values)
+        {
+            Console.WriteLine(szkoly.listaSzkol.Keys.ToArray()[sql] + " - szkola");
+            sql++;
+
+            foreach (var klasa in szkola.szkola.Values)
+            {
+                Console.WriteLine("|-" + szkola.szkola.Keys.ToArray()[kls] + " srednia inteligencja klasy: " + klasa.ObliczSredniaInteligencja());
+                kls++;
+
+                foreach (var uczen in klasa.klasa.Values)
+                {
+                    Console.WriteLine("  |-" + uczen.imie);
+                    ucz++;
+                }
+                ucz = 0;
+            }
+            kls = 0;
+        }
+        sql = 0;
     }
 }
 
@@ -54,7 +91,7 @@ class Uczen
 
 class Klasa
 {
-    private Dictionary<int, Uczen> klasa = new Dictionary<int, Uczen>();
+    public Dictionary<int, Uczen> klasa = new Dictionary<int, Uczen>();
 
     public void AddStudent(UczenID uczenID , string imie, string nazwisko, int inteligencja, int zwinnosc, int zachowanie)
     {
@@ -121,7 +158,7 @@ class Klasa
 
 class Szkola
 {
-    private Dictionary<string, Klasa> szkola = new Dictionary<string, Klasa>();
+    public Dictionary<string, Klasa> szkola = new Dictionary<string, Klasa>();
 
     public void AddClass(string nazwaKlasy, Klasa klasa)
     {
@@ -167,7 +204,7 @@ struct UczenID
 
 class ListaSzkol
 {
-    private Dictionary<string, Szkola> listaSzkol = new Dictionary<string, Szkola>();
+    public Dictionary<string, Szkola> listaSzkol = new Dictionary<string, Szkola>();
 
     public void AddSchool(string nazwaSzkoly, Szkola szkola)
     {
